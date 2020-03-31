@@ -1,0 +1,116 @@
+html {
+	height: 100%;
+}
+
+body {
+	font: 16px 'Playfair Display';
+	color: var(--near-black);
+	background-color: var(--off-white);
+	line-height: 1.5;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+div#sapper {
+	height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+a {
+	color: inherit;
+}
+
+code {
+	font-family: menlo, inconsolata, monospace;
+	font-size: calc(1em - 2px);
+	color: #555;
+	background-color: #f0f0f0;
+	padding: 0.2em 0.4em;
+	border-radius: 2px;
+}
+
+:root {
+	--off-white: #fafafa;
+	--faint-white: #a2a4a6;
+	--near-black: #0A121D;
+	--faint-black: #1c2b3b;
+	--medium-blue: #3b5166;
+	--dark-blue: #23303d;
+	--light-rose: #FEECEC;
+	--salmon: #F48FB1;
+	--orange: #EF6C00;
+	--soft-red: #ef5350;
+	--bright-green: #C8E6C9;
+
+
+	--green-tea: #C8E6C9;
+	--purple-pink: #FE8CA5;
+	--ultramarine-blue: #0c0b35;
+	--snow-white: #FBF8FA;
+	--bright-purple-blue: #6A6B8F;
+	--water-blue: #1F778F;
+	--pearl: #A6A2AE;
+	--mint: #9EF8D8;
+
+	--spruce-green: #66BB6A;
+
+}
+
+.text-button, .text-button:hover, .text-button:active,
+.floating-button, .floating-button:hover, .floating-button:active {
+	transition: all 0.2s;
+}
+
+.text-button {	
+	background-color: #0000;
+	border: 1px solid var(--bright-purple-blue);
+	border-radius: 4px;
+	padding: 10px 20px;
+	font-family: 'Oxygen Light';
+}
+
+.text-button:hover {
+	background-color: var(--ultramarine-blue);
+	color: white;
+}
+
+.text-button:active, .floating-button:active {
+	transform: scale(0.98);
+}
+
+.floating-button {
+	border-radius: 8px;
+	border: 1px solid #ffcdd2;
+	background-color: var(--snow-white);
+	box-shadow: 1px 1px 8px var(--light-rose);
+}
+
+.floating-button:hover {
+	box-shadow: 0 0 8px var(--bright-green);
+	border-color: var(--bright-green)
+}
+
+@font-face {
+	font-family: 'Playfair Display';
+	src: url('fonts/pd.ttf');
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	src: url('fonts/jbm.woff2');
+}
+
+@font-face {
+	font-family: 'Oxygen Light';
+	src: url('fonts/Oxygen-Light.ttf');
+}
