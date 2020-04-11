@@ -16,6 +16,7 @@ h1, h2 {
 main {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: column;
 	height: 100%;
 }
@@ -33,20 +34,6 @@ div#button {
 
 cite {
 	font: 0.8em 'JetBrains Mono';
-}
-
-button {
-	background-color: #0000;
-	border: 0;
-}
-
-button:hover {
-	transform: scale(0.95);
-	transition: transform 0.15s;
-}
-
-button:focus {
-	transform: scale(0.90);
 }
 </style>
 
@@ -82,5 +69,4 @@ button:focus {
 	</ul>
 	<cite>Sidney Greenbaum, The Oxford English Grammar (Oxford University Press, 1996).</cite>
 </div>
-<div style='flex: 1'></div>
 </main>
