@@ -1,26 +1,21 @@
-<script context='module'>	
-	import { user } from '../stores/user.js';
-
-
-	export async function preload(page, session) {
-		user.set(session.user);
-	}
-</script>
-
 <script>
-	import { goto } from '@sapper/app';
+	import { stores, goto } from '@sapper/app';
 	import { blur, fly } from 'svelte/transition';
 	import Nav from '../components/Nav.svelte';
 
 
+	const { session } = stores();
 	const links = [
 		{endpoint: '/theory', name: 'Theory', desc: 'Learn more about articles in English', icon: 'books'},
-		{endpoint: '/exercise', name: 'Exercise', desc: 'Test yourself!', icon: 'dumbbell'},
-		{endpoint: '/u', name: 'Progress', desc: 'Track your most common mistakes', icon: 'improvement'}
+		{endpoint: '/practice', name: 'Practice', desc: 'Test yourself!', icon: 'dumbbell'},
+		{endpoint: '/me', name: 'Progress', desc: 'Track your most common mistakes', icon: 'improvement'}
 	];
 
 	function handleClick(event) {
 		const endpoint = event.currentTarget.id;
+		if (endpoint === '/me') {
+			session.update(data => Object.assign(data, {'section': 'stats'}));
+		}
 		goto(endpoint);
 	}	
 
@@ -30,6 +25,7 @@
 main {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
@@ -38,16 +34,20 @@ main {
 #menu {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 
 .floating-button {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 25%;
+	--size: 230px;
+	width: var(--size);
+	height: var(--size);
 	border-radius: 16px;
 	margin: 0.5em;
 	padding: 20px;
+	flex: 1;
 }
 
 img {
@@ -72,8 +72,7 @@ img {
 </style>
 
 <main>
-	<Nav />
-	<div style='display: flex;'>
+	<Nav/>
 	<div id='menu'>
 		{#each links as {endpoint, name, desc, icon}, i}
 		<div on:click={handleClick} id={endpoint} class='floating-button'>
@@ -86,6 +85,4 @@ img {
 		{/if}
 		{/each}
 	</div>
-	</div>
-	<div style='flex: 1'></div>
 </main>
