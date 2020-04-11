@@ -6,9 +6,10 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { ensureLoggedIn, ensureLoggedOut } from 'connect-ensure-login';
 import session from 'express-session';
-import './utils/passport-setup.js';
+import './server/passport-setup.js';
 import { router as authRoutes } from './routes/_auth.js';
-import { session as cookieSession } from './utils/keys.js';
+import { session as cookieSession } from './server/keys.js';
+export { fetch } from 'node-fetch';
 
 
 const { PORT, NODE_ENV } = process.env;
@@ -44,18 +45,18 @@ app.use(
 
 /* protect endpoints from (un)authorized access */
 /*
-['/home', '/exercise*', '/u*'].forEach((path) => {
+['/home', '/practice*', '/me*'].forEach((path) => {
 	app.use(path, ensureLoggedIn('/'));
 });
 
 function root_only(fn) {
 	return async function (req, res, next) {
-		if (req.path === '/penis') return fn(req, res, next);
+		if (req.path === '/') return fn(req, res, next);
 		next();
 	}
 }
 
-app.use('/', root_only(ensureLoggedOut('/penis')));
+app.use('/', root_only(ensureLoggedOut('/home')));
 */
 app.use('/auth', authRoutes);
 
