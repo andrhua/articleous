@@ -46,22 +46,15 @@
 		border-radius: 100%;
 		background-color: var(--mint);
 		border: 0;
-		transition: all 0.2s;
-		overflow: hidden;
-	}
-
-	.circle:hover {
-		transition: all 0.2s;
-		transform: scale(1.05);
 	}
 
 	#features {
 		font: 1.7em 'Playfair Display';
 		position: absolute;
-		top: 190px;
-		right: 80px;
+		top: 100px;
+		right: 120px;
 		color: var(--near-black);
-		width: 500px;
+		width: 300px;
 	}
 
 	#left-wrap {
@@ -107,7 +100,20 @@
 		transform: scale(0.98);
 	}
 
-	img { 
+	.sir { 
+		width: 100%;
+		height: 100%;
+		margin: 8px;
+		opacity: 0%;
+		transition: opacity 1s;
+	}
+
+	.sir:hover {
+		opacity: 100%;
+		transition: opacity 6s;
+	}
+	
+	.github {
 		width: 100%;
 		height: 48px;
 		margin: 8px;
@@ -122,16 +128,13 @@
 
 <main>
 	<div class='circle'></div>
-	<div id='features'>
-		App that definetely not going to help you in learning English. Just get a decent grammar reference
-	</div>
+	<div id='features'><img class='sir' src='sergay.jpg', alt='backpack dude'></div>
 
 	<div id='left'>
 		<div id='left-wrap'>
 			<h1>{name}</h1>
 			<div id='ezekiel'>
-				I will carry out great vengeance on them and punish them in my wrath.<br>
-				Then they will know that I am the LORD, when I take vengeance on them.
+				я тебя люблю
 			</div>
 		</div>
 	</div>
