@@ -8,30 +8,29 @@
 
 	class Gap {
 		constructor() {
-			this.text = '_';
+			this.text = ' ';
 			this.style = 'gap';
 		}
 	}
 
-	function onSentenceChange(value) {
-		newSentence = false;
+	function onExerciseChange(value) {
+		newExercise = false;
 		setTimeout(() => {
-			sentence = value;
+			currentExerciseText = value;
 			createGaps();
 		}, outParams.duration);
 	}
 
-
 	function createGaps() {
-		fragments = sentence.split('%_%');
+		fragments = currentExerciseText.split('%_%');
 		gaps = new Array(fragments.length - 1);
-		answers = new Array(gaps.length);
+		userAnswers = new Array(gaps.length);
 		for (let i = 0; i < gaps.length; i++) gaps[i] = new Gap();		
 		focusId.reset(fragments.length - 2);
 		answer.set();
 		filled.set(false);
 		if (gaps[$focusId]) gaps[$focusId].style = 'focused';
-		newSentence = true;
+		newExercise = true;
 	}
 
 	function setFocusId(id) {
@@ -43,7 +42,7 @@
 	}
 
 	function fillGap() {
-		answers[$focusId] = $answer;
+		userAnswers[$focusId] = $answer;
 		gaps[$focusId].text = titleCase($focusId, articles[$answer]);
 		setFocusId($focusId + 1);
 		filled.set(isGapsFilled());	
@@ -57,7 +56,7 @@
 	};
 
 	function isGapsFilled() {
-		for (const ans of answers) if (!ans) return false;	
+		for (const ans of userAnswers) if (!ans) return false;	
 		return true;
 	}
 
@@ -65,23 +64,22 @@
 		return fragments[i] === '' && i === 0 ? text.charAt(0).toUpperCase() + text.slice(1) : text;
 	}
 
-
 	export function paintFeedback(feedback) {
 		for (let i = 0; i < feedback.length; i++) 
 			gaps[i].style = feedback[i] ? 'correct' : 'incorrect';
 	}	
 
 	export let state;
-	export let answers = [];
-	export let sentence;
+	export let userAnswers = [];
+	export let currentExerciseText;
 	let gaps;
 	let fragments;
-	let newSentence = true;
-	
-	const inParams = { duration: 300, x: 200 };
-	const outParams = { duration: 200, x: -200 };
+	let newExercise = true;
 
-	$: onSentenceChange(sentence);
+	const inParams = { duration: 300, x: 100 };
+	const outParams = { duration: 200, x: -100 };
+
+	$: onExerciseChange(currentExerciseText);
 
 	$: if ($answer !== undefined) {
 		fillGap();
@@ -89,62 +87,71 @@
 </script>
 
 <style>
-#text {
-	font-size: 1.4em;
-	width: 65%;
-}
+	#gaps {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	#text {
+		font-size: 1.4em;
+		width: 65%;
+	}
 
-span {
-	text-align: center;
-	display: inline-block;
-	width: 2em;
-}
+	span {
+		text-align: center;
+		display: inline-block;
+		width: 2em;
+		white-space: pre;
+	}
 
-.focused, .gap, .correct, .incorrect {
-	border-radius: 8px;
-	padding: 2px 4px;
-	margin-bottom: 1px;
-	border: solid 1px #0000;
-}
+	.focused, .gap, .correct, .incorrect {
+		border-radius: 8px;
+		padding: 2px 4px;
+		margin-bottom: 1px;
+		border: solid 1px #0000;
+	}
 
-.focused {
-	animation: fadeinout 2.6s infinite linear;
-	background-color: var(--pearl);
-}
+	.focused {
+		animation: fadeinout 2.6s infinite linear;
+		background-color: var(--pearl);
+	}
 
-@keyframes fadeinout{
-	from, to {opacity: 1;}
-	50% {opacity: 0.4;}	
-}
+	@keyframes fadeinout{
+		from, to {opacity: 1;}
+		50% {opacity: 0.4;}	
+	}
 
-.gap {
-	color: var(--ultramarine-blue);
-	border: solid 1px var(--pearl);
-}
+	.gap {
+		color: var(--ultramarine-blue);
+		border: solid 1px var(--pearl);
+	}
 
-.correct {
-	color: var(--spruce-green);
-}
+	.correct {
+		color: var(--spruce-green);
+	}
 
-.incorrect {
-	color: #ef5350;
-	text-decoration: underline;
-}
+	.incorrect {
+		color: #ef5350;
+		text-decoration: underline;
+	}
 </style>
 
 <svelte:window on:keydown={handleKeydown}/>
 
-{#if newSentence}
-<div id='text' 
-     in:fly|local={inParams}
-     out:fly|local={outParams}>
-{#each fragments as fragment, i}
-	{fragment}
-	{#if i < fragments.length - 1}
-	<span	on:click={() => setFocusId(i)} 
-		id={i} 
-		class={gaps[i].style}>{gaps[i].text}</span> 
+<div id='gaps'>
+	{#if newExercise}
+		<div id='text' 
+			in:fly|local={inParams}
+			out:fly|local={outParams}>
+			{#each fragments as fragment, i}
+				{fragment}
+				{#if i < fragments.length - 1}
+					<span	on:click={() => setFocusId(i)} 
+						id={i} 
+						class={gaps[i].style}>{gaps[i].text}</span> 
+				{/if}
+			{/each}
+		</div>
 	{/if}
-{/each}
 </div>
-{/if}
