@@ -80,9 +80,6 @@ img {
 			<div class='title'>{name}</div>
 			<div class='description'>{desc}</div>
 		</div>
-		{#if i < links.length - 1}
-		<div class='line'></div>
-		{/if}
 		{/each}
 	</div>
 </main>
