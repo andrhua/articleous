@@ -1,6 +1,17 @@
 const { promisify } = require('util');
 const redis = require('redis');
-export const client = redis.createClient();
+
+
+export let client;
+if (process.env.REDISTOGO_URL) {
+	let rtg = require("url").parse(process.env.REDISTOGO_URL);
+	client = redis.createClient(rtg.port, rtg.hostname);
+
+	client.auth(rtg.auth.split(":")[1]);
+} else {
+    client = redis.createClient();
+}
+
 client.on('error', function(error) {
 	console.error(error);
 });
