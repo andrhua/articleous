@@ -9,6 +9,9 @@ function wrap(meth) {
 	return promisify(client[meth]).bind(client);
 }
 
+export const existsAsync = wrap('exists');
+export const delAsync = wrap('del');
+
 export const hgetAsync = wrap('hget');
 export const hsetAsync = wrap('hset');
 export const hgetallAsync = wrap('hgetall');
