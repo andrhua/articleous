@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { ensureLoggedIn, ensureLoggedOut } from 'connect-ensure-login';
 import session from 'express-session';
-import './server/passport-setup.js';
+import passportSetup from './server/passport-setup.js';
 import { router as authRoutes } from './routes/_auth.js';
 import { session as cookieSession } from './server/keys.js';
 export { fetch } from 'node-fetch';
@@ -14,7 +14,8 @@ export { fetch } from 'node-fetch';
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
-export const server = dev ? 'http://localhost:3000' : 'https://your_deployment.server.com';
+export const server = dev ? 'http://localhost:3000' : 'https://articleous.herokuapp.com'
+passportSetup(server);
 const app = polka();
 
 /* polka does not have res.redirect */
@@ -34,6 +35,7 @@ app.use(
 		session({
 			cookie: {
 				maxAge: 31 * 24 * 60 * 60 * 1000,
+				secure: !dev,
 			},
 			secret: cookieSession.key,
 			resave: false,
