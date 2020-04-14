@@ -4,7 +4,18 @@
 
 
 	function inflateData(data) {
-		return Array.from(data.entries(), ([i, y]) => ({x: i + 1, y: y}));
+		return Array.from(data.entries(), ([i, y]) => ({x: i + 1, y: y * 100}));
+	}
+
+	function ratio(type) {
+		return stats.correct[type] + '/' + (Number(stats.correct[type]) + Number(stats.wrong[type]));
+	}
+
+	function color(type) {
+		const ratio = stats.record[type].slice(-1)[0];
+		const colors = ['#f44336', '#ff5722', '#ff9800', '#cddc39', '#4caf50', '#2196f3', '#e91e63'];
+		const level = Math.floor(ratio * colors.length);
+		return `color: ${colors[level]}`;
 	}
 
 	export let id;
@@ -12,9 +23,8 @@
 	export let stats;
 	let canvasElement;
 
-	onMount(() => {
-		const ctx = canvasElement.getContext('2d');
-		const chart = new Chart(ctx, {
+	if (stats) {
+		let config = {
 			type: 'line',
 			data: {
 				datasets: [
@@ -41,15 +51,27 @@
 			},
 			options: {
 				responsive: false,
+				title: {
+					display: true,
+					text: 'Correct answer rate',
+				},
 				scales: {
 					xAxes: [{
 						type: 'linear',
 						display: true,
 						scaleLabel: {
-							display: true
+							display: true,
+							labelString: 'trainings',
 						},
 						ticks: {
-							min: 1
+							min: 1,
+							stepSize: 1,
+						}
+					}],
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: '%',
 						}
 					}]
 				},
@@ -57,41 +79,60 @@
 					position: 'right'
 				}
 			}
+		};
+		onMount(() => {		
+			const ctx = canvasElement.getContext('2d');
+			const chart = new Chart(ctx, config);
 		});
-	});
+	}
 </script>
 
 <style>
-	div {
+	.no-stats {
 		display: flex;
-		justify-content: center;
-		align-items: center;
+		place-items: center;
+		font-size: 1.4em;
 	}
 
-	table {
-		border-collapse: collapse;
-		font: 1.3em 'Oxygen Light';
+	.stats {
+		display: grid;
+		grid-template-columns: 0.2fr 0.2fr 0.6fr;
+		grid-template-rows: repeat(3, 1fr);
 	}
 
-	td {
-		padding: 0.5em 0.8em;
+	label, .numeric {
+		display: inline-grid;
+	}
+
+	label {
+		font: 1.4em 'Oxygen Light';
+		place-items: center start;
+		padding-left: 1em;
+		margin-right: 25px;
 	}
 
 	.numeric {
 		font: 1em 'JetBrains Mono';
-		text-align: right;
+		place-items: center end;
+		padding-right: 1em;
+	}
+
+	canvas {
+		padding-left: 50px;
+		grid-row: 1 / 4;
+		grid-column: 3 / 4;
 	}
 </style>
 
-<div>
-	<table>
+<div class={(stats ? 'stats' : 'no-stats') + ' pad'}>
+	{#if !stats}
+		You haven't finished any exercises yet 🥴
+	{:else}
 		{#each stats.types as type, i}
-			<tr>
-				<td>{type}</td>
-				<td class='numeric'>{stats.correct[type]}/{Number(stats.wrong[type]) + Number(stats.correct[type])}</td>
-			</tr>
+			<label>{type}</label>
+			<div class='numeric' style={color(type)}>{ratio(type)}</div>
 		{/each}
-	</table>
-	<canvas bind:this={canvasElement} width="700" height="350"></canvas>
+		<canvas bind:this={canvasElement} width="700" height="350"></canvas>
+	{/if}
 </div>
 
