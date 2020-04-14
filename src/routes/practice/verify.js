@@ -1,13 +1,17 @@
-import { getAnswer, getFeedback } from '../../server/exercise-oracle.js';
-import { updateAnswerCounters } from '../../server/stat.js';
+import { getAnswer, getFeedback, PRACTICE_LENGTH } from '../../server/exercise-oracle.js';
+import { updateAnswerCounters, updateRecords } from '../../server/stat.js';
 
 
 export async function post(req, res, next) {
-	const { id, userAnswers } = req.body;
-	const truth = await getAnswer(id);
-	//updateAnswerCounters(req.user.id, truth, userAnswers);
-	updateAnswerCounters(0, truth, userAnswers);
+	const { exerciseId, userAnswers } = req.body; 
+	const userId = req.user.id;
+	const truth = await getAnswer(exerciseId);
 	const feedback = getFeedback(truth, userAnswers);
+	await updateAnswerCounters(userId, truth, userAnswers);
+	req.session.completedExercises++;
+	if (req.session.completedExercises === PRACTICE_LENGTH) {
+		await updateRecords(userId);
+	}
 	res.setHeader('Content-Type', 'application/json');
 	res.end(JSON.stringify(feedback));
 }

@@ -1,8 +1,6 @@
 <script context='module'>
 	export async function preload(page, session) {
-		// const { id } = session.user;
-		const id = 0;
-		const exercises = await this.fetch(`/practice/exercises?id=${id}`, {credentials: 'include'}).then(v => v.json());
+		const exercises = await this.fetch(`/practice/exercises`, {credentials: 'include'}).then(v => v.json());
 		
 		function* gen() {
 			for (const [id, exercise] of exercises) {
@@ -34,7 +32,7 @@
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			credentials: 'include',
-			body: JSON.stringify({id: currentExerciseId, userAnswers}),
+			body: JSON.stringify({exerciseId: currentExerciseId, userAnswers}),
 		}).then(v => v.json());
 		gaps.paintFeedback(feedback);
 		completedExercises++;
