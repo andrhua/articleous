@@ -42,9 +42,14 @@
 
 	ul {
 		list-style-type: none;
-		margin-left: 1em;
 	}
 
+	li {
+		padding: 0.5em;
+		font-size: 1em;
+		transition: font-size 0.2s;
+	}
+		
 	button {
 		text-transform: uppercase;
 		font: 1.3em 'Playfair Display';
@@ -52,9 +57,10 @@
 		border: 0;
 	}
 
-	.inactive {
+	.active {
 		pointer-events: none;
-		color: var(--faint-white);
+		font-size: 1.9em;
+		transition: font-size 0.2s;
 	}
 
 	main > div {
@@ -68,11 +74,11 @@
 		<ul>
 			<li><button 
 					id='stats'
-					class:inactive={section === 'stats'} 
+					class:active={section === 'stats'} 
 					on:click={handleClick}>Stats</button></li>
 			<li><button 
 					id='acc'
-					class:inactive={section === 'acc'} 
+					class:active={section === 'acc'} 
 					on:click={handleClick}>Account</button></li>
 		</ul>
 	</nav>
