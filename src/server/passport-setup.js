@@ -24,7 +24,7 @@ passport.use(new Strategy({
 			done(null, user);
 		}
 		else {
-			addUser(profile).then(() => done(null, id));
+			addUser(profile).then((user) => done(null, user));
 		}
 	});
 }));	
