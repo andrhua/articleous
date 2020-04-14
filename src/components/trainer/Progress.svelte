@@ -24,7 +24,7 @@
 		background-color: var(--faint-black);
 	}
 
-	.line {
+	.interline {
 		height: 1px;
 		background-color: var(--faint-black);
 		flex: 1 1 auto;
@@ -33,9 +33,9 @@
 
 <div id='progress'>
 	{#each foo as bar, i}
-		<div id={i} class={'circle' + (i <= value ? ' filled' : '')}></div>
+		<div id={i} class={'circle' + (i < value ? ' filled' : '')}></div>
 		{#if i < max - 1}
-			<div class='line'></div>
+			<div class='interline'></div>
 		{/if}
 	{/each}
 </div>
