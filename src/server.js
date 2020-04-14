@@ -44,7 +44,7 @@ app.use(
 	);
 
 /* protect endpoints from (un)authorized access */
-/*
+
 ['/home', '/practice*', '/me*'].forEach((path) => {
 	app.use(path, ensureLoggedIn('/'));
 });
@@ -57,7 +57,7 @@ function root_only(fn) {
 }
 
 app.use('/', root_only(ensureLoggedOut('/home')));
-*/
+
 app.use('/auth', authRoutes);
 
 app.get('/logout', function(req, res){
