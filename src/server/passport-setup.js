@@ -3,7 +3,7 @@ import { Strategy } from 'passport-github2';
 import { github } from './keys.js';
 import { getUser, addUser } from './user.js';
 
-default export function passportSetup(server) {
+export default function passportSetup(server) {
 	passport.serializeUser(function(user, done) {
 		done(null, user.id);
 	});
