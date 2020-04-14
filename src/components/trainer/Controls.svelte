@@ -11,7 +11,7 @@
 	}
 
 	function setAnswer(id) {
-		if (state === $State.edit) answer.set(id);
+		if (state === $State.edit) answer.set(Number(id));
 	}
 
 	function handleKeydown(event) {
@@ -21,10 +21,6 @@
 			case 78: id = 2; break; // an
 			case 84: id = 3; break; // the
 			case 90: id = 0; break; // zero
-
-				// case 40: case 74: id += 1; break;
-				// case 35: case 78: id -= 1; break;
-
 		};
 		if (id >= 0) {
 			setAnswer(id);
@@ -32,8 +28,8 @@
 	};
 
 	export let state;
-	const inParams = { delay: 200, duration: 300, x: 50 };
-	const outParams = { duration: 250 };
+	const inParams = { delay: 150, duration: 150, x: 50 };
+	const outParams = { duration: 150 };
 </script>
 
 <style>
