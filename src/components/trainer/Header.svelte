@@ -5,10 +5,6 @@
 
 	const dispatch = createEventDispatcher();
 
-	function quitTraining() {
-		dispatch('quit');
-	}
-
 	export let practiceLength;
 	export let completedExercises;
 </script>
@@ -42,7 +38,7 @@
 
 <div id='header'>
 	<div id='quit'>
-		<button on:click={quitTraining} class='icon'>
+		<button on:click={() => dispatch('quit')} class='icon'>
 			<img style='width: 28px' src='icons/delete.svg' alt='close'>
 		</button>
 	</div>
