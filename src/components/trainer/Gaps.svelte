@@ -56,7 +56,7 @@
 	};
 
 	function isGapsFilled() {
-		for (const ans of userAnswers) if (!ans) return false;	
+		for (const ans of userAnswers) if (ans === undefined) return false;	
 		return true;
 	}
 
@@ -76,8 +76,8 @@
 	let fragments;
 	let newExercise = true;
 
-	const inParams = { duration: 300, x: 100 };
-	const outParams = { duration: 200, x: -100 };
+	const inParams = { duration: 150, x: 50 };
+	const outParams = { duration: 150, x: -50 };
 
 	$: onExerciseChange(currentExerciseText);
 
