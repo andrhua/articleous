@@ -1,4 +1,4 @@
-import { hgetallAsync, hincrbyAsync, lrangeAsync, rpushAsync } from './db.js';
+import { existsAsync, hgetallAsync, hincrbyAsync, lrangeAsync, rpushAsync, delAsync } from './db.js';
 
 
 export const types = ['zero', 'indefinite', 'definite'];
@@ -8,6 +8,10 @@ function key(id, ...args) {
 	return `stat:${id}:` + args.join(':');
 }
 
+export async function exists(id) {
+	return existsAsync(key(id, 'correct'));
+}
+
 export async function getAnswerCounters(id, answerType) {
 	return hgetallAsync(key(id, answerType));
 }
@@ -15,12 +19,11 @@ export async function getAnswerCounters(id, answerType) {
 export async function updateAnswerCounters(id, truth, userAnswers) {
 	function convert(articleIndex) {
 		switch (articleIndex) {
-			case '0': return types[0];
-			case '3': return types[2];
-			case '1': case '2':
-				return types[1];
+			case 0: return types[0];
+			case 1: case 2:	return types[1];
+			case 3: return types[2];
 		}
-		return 'nani';
+		throw `the hell is this: ${articleIndex}`;
 	}
 
 	let correct = {};
@@ -38,15 +41,12 @@ export async function updateAnswerCounters(id, truth, userAnswers) {
 			wrong[convert(userAnswers[i])]++;
 		}
 	}
-	correct = await incrAnswerCounters(id, 'correct', correct);
-	wrong = await incrAnswerCounters(id, 'wrong', wrong);
-	await updateRecord(id, correct, wrong);
+	await incrAnswerCounters(id, 'correct', correct);
+	await incrAnswerCounters(id, 'wrong', wrong);
 }
 
-async function incrAnswerCounters(id, answerType, values) { 
-	Object.keys(values).
-		map(async article => values[article] = await hincrbyAsync(key(id, answerType), article, values[article]));
-	return values;
+async function incrAnswerCounters(id, answerType, values) {
+	return Promise.all(Object.keys(values).map(article => hincrbyAsync(key(id, answerType), article, values[article])));
 }
 
 export async function getRecords(id) {
@@ -57,9 +57,14 @@ export async function getRecords(id) {
 	return res;
 }
 
-export async function updateRecord(id, correct, wrong) {
+export async function updateRecords(id) {
+	const correct = await getAnswerCounters(id, 'correct');
+	const wrong = await getAnswerCounters(id, 'wrong');
+
 	function hitRatio(article) {
-		return correct[article] / (correct[article] + wrong[article]);
+		const a = Number(correct[article]);
+		const b = Number(wrong[article]);
+		return a / (a + b);
 	}
 
 	return Promise.all(
@@ -67,3 +72,8 @@ export async function updateRecord(id, correct, wrong) {
 	);
 }
 
+
+export async function deleteStats(id) { 
+	await Promise.all(['correct', 'wrong'].map(t => delAsync(key(id, t))));
+	await Promise.all(types.map(t => delAsync(key(id, 'record', t))));
+}
