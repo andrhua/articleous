@@ -17,19 +17,19 @@
 		top: 0;
 		left: 0;
 		font-weight: 300;
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 1em;
 		align-items: center;
 		--margin: 0.8em;
-		width: calc(100% - 2 * var(--margin));
 		margin: var(--margin);
+		width: calc(100% - 2 * var(--margin));
 	}
 
 	a { 
 		font: 1.85em 'Playfair Display';
 		text-transform: uppercase;
 		text-decoration: none;
-		flex: 1;
 	}
 
 	label {
@@ -48,24 +48,36 @@
 		transition: all 0.2s;
 	}
 
-	div {
+	.nav-content {
+		display: flex;
+		justify-items: center;
+		align-items: center;
+	}
+
+	.nav-content > div {
 		flex: 1;
+	}
+
+	.img-wrap {
 		display: flex;
 		justify-content: end;
-		align-items: center;
 	}
 </style>
 
 <nav>
-	<a href='/home'>articleous</a>
-	{#if segment === "me"}
-		<label>myuniqueusernamethatalsoisreallylong</label>
-	{/if}
-	<div>
-		<img src='icons/test-account.svg'
-			alt='avatar'
-			on:click={handleClick}/>
+	<div class='nav-content'>
+		<div >
+			<a href='/home'>articleous</a>
+		</div>
+		{#if segment === "me"}
+			<label>{$session.user.username}</label>
+		{/if}
+		<div class='img-wrap'>
+			<img src={$session.user.avatar}
+				alt='avatar'
+				on:click={handleClick}/>
+		</div>
 	</div>
+	<div class='line'></div>
 </nav>
-<div class='line'></div>
 
