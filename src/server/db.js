@@ -16,6 +16,7 @@ client.on('error', function(error) {
 	console.error(error);
 });
 
+
 function wrap(meth) {
 	return promisify(client[meth]).bind(client);
 }
@@ -24,7 +25,7 @@ export const existsAsync = wrap('exists');
 export const delAsync = wrap('del');
 
 export const hgetAsync = wrap('hget');
-export const hsetAsync = wrap(client.server_info.versions[0] >= 4 ? 'hset' : 'hmset');
+export const hsetAsync = wrap('hmset');
 export const hgetallAsync = wrap('hgetall');
 export const hincrbyAsync = wrap('hincrby');
 

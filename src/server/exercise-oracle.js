@@ -13,7 +13,7 @@ export async function getAnswer(id) {
 export async function formPractice(id) {
 	let res = [];
 	for (let i = 0; i < PRACTICE_LENGTH; i++) {
-		const id = Math.floor(Math.random() * 1000) 
+		const id = Math.floor(Math.random() * 100) 
 		res.push([id, await getText(id)]);
 	}
 	return Promise.all(res);
