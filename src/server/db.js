@@ -9,7 +9,7 @@ if (process.env.REDISTOGO_URL) {
 
 	client.auth(rtg.auth.split(":")[1]);
 } else {
-    client = redis.createClient();
+	client = redis.createClient();
 }
 
 client.on('error', function(error) {
@@ -24,7 +24,7 @@ export const existsAsync = wrap('exists');
 export const delAsync = wrap('del');
 
 export const hgetAsync = wrap('hget');
-export const hsetAsync = wrap('hset');
+export const hsetAsync = wrap(client.server_info.versions[0] >= 4 ? 'hset' : 'hmset');
 export const hgetallAsync = wrap('hgetall');
 export const hincrbyAsync = wrap('hincrby');
 
