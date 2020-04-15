@@ -37,6 +37,7 @@ app.use(
 				maxAge: 31 * 24 * 60 * 60 * 1000,
 				secure: !dev,
 			},
+			proxy: true,
 			secret: cookieSession.key,
 			resave: false,
 			saveUninitialized: false 
