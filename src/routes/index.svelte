@@ -93,7 +93,7 @@
 <main>
 	<div id='left'>
 		<h1>{name}</h1>
-		<div id='ezekiel'>я тебя люблю</div>
+		<div id='ezekiel'>there goes some selling text</div>
 	</div>
 	<div id='right'>
 		<div class='floating-button provider' on:click={() => goto('/auth/github')} >
