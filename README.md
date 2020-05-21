@@ -17,11 +17,11 @@ Python deps:
 
 ### Setup
 ```bash
-git clone -–depth 1 https://github.com/andrhua/articleous.git && cd articleous
+git clone -–depth 1 https://github.com/andrhua/articleous.git && cd articleous/data
 redis-server
 wget "https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles1.xml-p1p30303.bz2" -O dump.bz2
 python WikiExtractor.py -b 100M -o extracted dump.bz2 # extract articles in xml
-python tag.py # article tagging
+mkdir tagged && python tag.py # article tagging
 python gen_redis_proto.py | redis-cli --pipe # insert training sentences to redis
 npm run dev
 ```
