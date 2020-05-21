@@ -23,7 +23,7 @@ wget "https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles1.xm
 python WikiExtractor.py -b 100M -o extracted dump.bz2 # extract articles in xml
 mkdir tagged && python tag.py # article tagging
 python gen_redis_proto.py | redis-cli --pipe # insert training sentences to redis
-npm run dev
+cd .. && npm run dev
 ```
 
 Built with [Sapper](https://sapper.svelte.dev/) + [Svelte](https://svelte.dev/)
