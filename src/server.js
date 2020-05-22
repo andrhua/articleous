@@ -1,5 +1,5 @@
 import sirv from 'sirv';
-import polka from 'polka';
+import Polka from 'polka';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
 import bodyParser from 'body-parser';
@@ -18,7 +18,7 @@ if (dev) {
   require('dotenv').config();
 }
 passportSetup(server);
-const app = polka();
+const app = Polka();
 
 /* polka does not have res.redirect */
 app.use(function(req, res, next) {
