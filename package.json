@@ -1,7 +1,10 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "articleous",
+  "description": "here we go let's go with the flow",
   "version": "0.0.1",
+  "engines": {
+    "node": "14.3.x"
+  },
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
