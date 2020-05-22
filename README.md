@@ -2,6 +2,6 @@
 
 ### dummy tool supposed to assist you in learning article grammar
 
-Demo with non-persistent redis memory is hosted [here](https://articleous.herokuapp.com)
+[Demo](https://articleous.herokuapp.com)
 
 Built with [Sapper](https://sapper.svelte.dev/) + [Svelte](https://svelte.dev/)
