@@ -16,7 +16,6 @@ const dev = NODE_ENV === 'development';
 export const server = dev ? 'http://localhost:3000' : 'https://articleous.herokuapp.com'
 if (dev) {
   require('dotenv').config();
-  console.log(process.env);
 }
 passportSetup(server);
 const app = polka();
