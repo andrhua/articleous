@@ -1,6 +1,7 @@
-<script>
-	export let segment;
-</script>
+<svelte:head>
+  <title>ARTICLEOUS</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</svelte:head>
 
 <style>
 	main {
@@ -10,4 +11,4 @@
 	}
 </style>
 
-<slot ></slot>
+<slot></slot>
