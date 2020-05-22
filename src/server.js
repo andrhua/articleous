@@ -8,13 +8,16 @@ import { ensureLoggedIn, ensureLoggedOut } from 'connect-ensure-login';
 import session from 'express-session';
 import passportSetup from './server/passport-setup.js';
 import { router as authRoutes } from './routes/_auth.js';
-import { session as cookieSession } from './server/keys.js';
 export { fetch } from 'node-fetch';
 
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 export const server = dev ? 'http://localhost:3000' : 'https://articleous.herokuapp.com'
+if (dev) {
+  require('dotenv').config();
+  console.log(process.env);
+}
 passportSetup(server);
 const app = polka();
 
@@ -38,7 +41,7 @@ app.use(
 				secure: !dev,
 			},
 			proxy: true,
-			secret: cookieSession.key,
+			secret: process.env.SESSION_SECRET,
 			resave: false,
 			saveUninitialized: false 
 		}),

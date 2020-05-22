@@ -1,6 +1,5 @@
 import passport from 'passport';
 import { Strategy } from 'passport-github2';
-import { github } from './keys.js';
 import { getUser, addUser } from './user.js';
 
 export default function passportSetup(server) {
@@ -15,8 +14,8 @@ export default function passportSetup(server) {
 	});
 
 	passport.use(new Strategy({
-		clientID: github.clientID,
-		clientSecret: github.clientSecret,
+		clientID: process.env.GITHUB_CLIENTID,
+		clientSecret: process.env.GITHUB_SECRET,
 		callbackURL: `${server}/auth/github/callback`
 	}, function (accessToken, refreshToken, profile, done) {
 		const { id } = profile;
